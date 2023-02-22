@@ -71,7 +71,7 @@ GET /dateTime/get
 |  `time`  |  `str`  |  Time (format : hh:mm) |
 ### Set date time value
 ```http
-SET /dateTime/set
+POST /dateTime/set
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
