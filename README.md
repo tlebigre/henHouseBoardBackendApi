@@ -8,7 +8,7 @@ Init my GPIO with :
 
 My hardware :
 - Engine reference : 23HS22-2804S
-- step driver reference : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
+- Step driver reference : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
 - RTC module : HW-084
 ## API Reference
 ### Returns GPIO value
@@ -63,7 +63,7 @@ GET /dateTime/get
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
-|  `dateTime `  |  `DateTime`  |  Date and time|
+|  `dateTime `  |  `DateTime`  |  **Required**. Date and time|
 
 ***DateTime class*** 
 | Parameter | Type | Description |
@@ -76,7 +76,7 @@ POST /dateTime/set
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
-|  `dateTimeWithDayOfWeek`  |  `DateTimeWithDayOfWeek`  |  Date, time and day of week |
+|  `dateTimeWithDayOfWeek`  |  `DateTimeWithDayOfWeek`  |  **Required**. Date, time and day of week |
 
 ***DateTimeWithDayOfWeek class*** (all is **Required**)
 | Parameter | Type | Description |
