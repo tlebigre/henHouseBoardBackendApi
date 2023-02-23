@@ -20,7 +20,7 @@ GET /gpio/get/{gpio}
 | Parameter | Type | Description |
 | :-------- | :------- | :------------------------- |
 |  `gpio`  |  `int`  |  **Requis**. Gpio |
-### Modifie la valeur au GPIO
+### Modifie la valeur du GPIO
 ```http
 GET /gpio/set/{gpio}/{value}
 ```
