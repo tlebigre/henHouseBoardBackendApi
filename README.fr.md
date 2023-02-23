@@ -20,7 +20,7 @@ GET /gpio/get/{gpio}
 | Parameter | Type | Description |
 | :-------- | :------- | :------------------------- |
 |  `gpio`  |  `int`  |  **Requis**. Gpio |
-### Donne la valeur au GPIO
+### Modifie la valeur au GPIO
 ```http
 GET /gpio/set/{gpio}/{value}
 ```
@@ -37,7 +37,7 @@ POST /engineUpOrDown/set
 | :-------- | :------- | :-------------------------------- |
 |  `engine`  |  `Engine`  |  **Requis**. Paramètres du moteur |
 
-***Engine class*** (all is **Required**)
+***Engine class*** (Tout est **Requis**)
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `gpio`  |  `int`  |  Gpio de fonctionnement du moteur |
@@ -47,42 +47,42 @@ POST /engineUpOrDown/set
 |  `isUp`  |  `bool`  | Le moteur monte ou descend|
 |  `isForce`  |  `bool`  |  Ignore `buttonGpio` si `isForce` est vrai |
 
-### Returns state value
+### Retourne l'état
 ```http
 GET /state/get
 ```
-### Set state value
+### Modifie l'état
 ```http
 GET /state/set/{state}
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :------------------------- |
-|  `state`  |  `int`  |  **Required**. State value|
+|  `state`  |  `int`  |  **Requis**. Valeur de l'état|
 
-### Returns date time value
+### Retourne la date et l'heure
 ```http
 GET /dateTime/get
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
-|  `dateTime `  |  `DateTime`  |  **Required**. Date and time|
+|  `dateTime `  |  `DateTime`  |  **Requis**. Date et heure|
 
 ***DateTime class*** 
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `date`  |  `str`  |  Date (format : dd/MM/yyyy) |
-|  `time`  |  `str`  |  Time (format : hh:mm) |
-### Set date time value
+|  `time`  |  `str`  |  Heure (format : hh:mm) |
+### Modifie la date et l'heure
 ```http
 POST /dateTime/set
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
-|  `dateTimeWithDayOfWeek`  |  `DateTimeWithDayOfWeek`  |  **Required**. Date, time and day of week |
+|  `dateTimeWithDayOfWeek`  |  `DateTimeWithDayOfWeek`  |  **Requis**. Date, heure et jour de la semaine |
 
-***DateTimeWithDayOfWeek class*** (all is **Required**)
+***DateTimeWithDayOfWeek class*** (tout est **Requis**)
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `date`  |  `str`  |  Date (format : dd/MM/yyyy) |
-|  `time`  |  `str`  |  Time (format : hh:mm) |
-|  `dayOfWeek`  |  `int`  |  Day of week|
+|  `time`  |  `str`  |  Heure (format : hh:mm) |
+|  `dayOfWeek`  |  `int`  |  Jour de la semaine|
