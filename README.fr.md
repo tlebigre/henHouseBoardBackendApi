@@ -65,7 +65,7 @@ GET /dateTime/get
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
-|  `dateTime `  |  `DateTime`  |  **Requis**. Date et heure|
+|  `dateTime `  |  `DateTime`  | Date et heure|
 
 ***DateTime class*** 
 | Parameter | Type | Description |
