@@ -44,8 +44,8 @@ POST /engineUpOrDown/set
 |  `speed`  |  `int`  |  Engine speed |
 |  `buttonGpio`  |  `int`  |  Engine run if `buttonGpio` value is true |
 |  `limit`  |  `int`  |  Top or bottom limit for engine |
-|  `isUp`  |  `int`  | Engine goes up or down|
-|  `isForce`  |  `int`  |  Ignore gpio button if `isForce` is true |
+|  `isUp`  |  `bool`  | Engine goes up or down|
+|  `isForce`  |  `bool`  |  Ignore `buttonGpio` if `isForce` is true |
 
 ### Returns state value
 ```http
