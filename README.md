@@ -47,11 +47,11 @@ POST /engineUpOrDown/set
 |  `isUp`  |  `bool`  | Engine goes up or down|
 |  `isForce`  |  `bool`  |  Ignore `buttonGpio` if `isForce` is true |
 
-### Returns state value
+### Returns state
 ```http
 GET /state/get
 ```
-### Set state value
+### Set state
 ```http
 GET /state/set/{state}
 ```
@@ -65,7 +65,7 @@ GET /dateTime/get
 ```
 | Parameter | Type | Description |
 | :-------- | :------- | :-------------------------------- |
-|  `dateTime `  |  `DateTime`  |  **Required**. Date and time|
+|  `dateTime `  |  `DateTime`  |  Date and time|
 
 ***DateTime class*** 
 | Parameter | Type | Description |
