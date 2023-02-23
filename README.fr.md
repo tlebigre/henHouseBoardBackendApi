@@ -29,7 +29,7 @@ GET /gpio/set/{gpio}/{value}
 |  `gpio`  |  `int`  |  **Requis**. Gpio |
 |  `value`  |  `bool`  |  **Requis**. Valeur du Gpio |
 
-### Le moteur monte du descend
+### Le moteur monte ou descend
 ```http
 POST /engineUpOrDown/set
 ```
