@@ -13,7 +13,7 @@ My hardware :
 - Step driver reference : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
 - RTC module : HW-084
 
-Run with : uvicorn main:app
+Run with : **uvicorn main:app**
 ## API Reference
 ### Returns GPIO value
 ```http
