@@ -12,19 +12,21 @@ Mon matériel :
 - Référence du moteur : 23HS22-2804S
 - Référence du driver : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
 - Module RTC : HW-084
+
+Lancer avec : **uvicorn main:app**
 ## API Reference
 ### Retourne la valeur du GPIO
 ```http
 GET /gpio/get/{gpio}
 ```
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :------------------------- |
 |  `gpio`  |  `int`  |  **Requis**. Gpio |
 ### Modifie la valeur du GPIO
 ```http
 GET /gpio/set/{gpio}/{value}
 ```
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `gpio`  |  `int`  |  **Requis**. Gpio |
 |  `value`  |  `bool`  |  **Requis**. Valeur du Gpio |
@@ -33,12 +35,12 @@ GET /gpio/set/{gpio}/{value}
 ```http
 POST /engineUpOrDown/set
 ```
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `engine`  |  `Engine`  |  **Requis**. Paramètres du moteur |
 
 ***Engine class*** (Tout est **Requis**)
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `gpio`  |  `int`  |  Gpio de fonctionnement du moteur |
 |  `speed`  |  `int`  |  Vitesse du moteur |
@@ -55,7 +57,7 @@ GET /state/get
 ```http
 GET /state/set/{state}
 ```
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :------------------------- |
 |  `state`  |  `int`  |  **Requis**. Valeur de l'état|
 
@@ -63,12 +65,12 @@ GET /state/set/{state}
 ```http
 GET /dateTime/get
 ```
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `dateTime `  |  `DateTime`  | Date et heure|
 
 ***DateTime class*** 
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `date`  |  `str`  |  Date (format : dd/MM/yyyy) |
 |  `time`  |  `str`  |  Heure (format : hh:mm) |
@@ -76,12 +78,12 @@ GET /dateTime/get
 ```http
 POST /dateTime/set
 ```
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `dateTimeWithDayOfWeek`  |  `DateTimeWithDayOfWeek`  |  **Requis**. Date, heure et jour de la semaine |
 
 ***DateTimeWithDayOfWeek class*** (tout est **Requis**)
-| Parameter | Type | Description |
+| Paramètre | Type | Description |
 | :-------- | :------- | :-------------------------------- |
 |  `date`  |  `str`  |  Date (format : dd/MM/yyyy) |
 |  `time`  |  `str`  |  Heure (format : hh:mm) |
