@@ -17,12 +17,15 @@ My hardware :
 
 ```bash
 pip install grpcio
+```
 
 ```bash
 pip install grpcio-tools
+```
 
 ```bash
 python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. board.proto
+```
 
 ## Developing
 
@@ -30,3 +33,4 @@ Start a development server:
 
 ```bash
 python server.py
+```
