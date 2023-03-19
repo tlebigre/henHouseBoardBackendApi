@@ -1,4 +1,3 @@
-from fastapi import FastAPI
 from pydantic import BaseModel
 import RPi.GPIO as GPIO
 import time
@@ -8,7 +7,6 @@ import board
 i2c = board.I2C()
 rtc = adafruit_ds3231.DS3231(i2c)
 GPIO.setwarnings(False)
-app = FastAPI()
 
 #--------------------
 #-- init GPIO -------
@@ -22,12 +20,10 @@ GPIO.setup(26, GPIO.OUT, initial=GPIO.LOW)
 #--------------------
 #-- GPIO ------------
 #-------------------- 
-@app.get("/gpio/get/{gpio}")
-def read(gpio: int):
+def getGpio(gpio: int):
     return GPIO.input(gpio)
  
-@app.get("/gpio/set/{gpio}/{value}")
-def set(gpio: int, value: bool):
+def setGpio(gpio: int, value: bool):
     if value:
         GPIO.output(gpio, GPIO.HIGH)
     else:
@@ -44,9 +40,8 @@ class Engine(BaseModel):
     isUp: bool
     isForce: bool
 
-@app.post("/engineUpOrDown/set")   
-def engine_up_or_down(engine : Engine):
-    state = get_state()
+def engineUpOrDown(engine : Engine):
+    state = getState()
     while ((engine.isForce or GPIO.input(engine.buttonGpio)) 
     and ((state < engine.limit) if engine.isUp else (state > engine.limit))):
         GPIO.output(engine.gpio, GPIO.HIGH)
@@ -57,19 +52,17 @@ def engine_up_or_down(engine : Engine):
             state += 1
         else :
             state -= 1
-        set_state(state)
+        setState(state)
 
 #--------------------
 #-- State -----------
 #--------------------    
-@app.get("/state/get")
-def get_state():
+def getState():
     with open('state.txt') as f:
         content = f.read()
         return 0 if (content == "") else int(content)
 
-@app.get("/state/set/{state}")
-def set_state(state : int) :
+def setState(state : int) :
     with open('state.txt', 'w') as f:
         f.write(str(state))
 
@@ -85,14 +78,12 @@ class DateTimeWithDayOfWeek(BaseModel):
     time: str
     dayOfWeek : int
 
-@app.get("/dateTime/get")
-def time_get() -> DateTime :
+def getDateTime() -> DateTime :
     dateTime = rtc.datetime
     return DateTime(date=str(dateTime.tm_mday).zfill(2)+'/'+str(dateTime.tm_mon).zfill(2)+'/'+str(dateTime.tm_year), 
         time=str(dateTime.tm_hour).zfill(2)+':'+str(dateTime.tm_min).zfill(2))
 
-@app.post("/dateTime/set")
-def time_set(dateTimeWithDayOfWeek : DateTimeWithDayOfWeek):
+def setDateTime(dateTimeWithDayOfWeek : DateTimeWithDayOfWeek):
     splitDate = dateTimeWithDayOfWeek.date.split('/')
     splitTime = dateTimeWithDayOfWeek.time.split(':')
     rtc.datetime = time.struct_time((
