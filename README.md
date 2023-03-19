@@ -12,3 +12,21 @@ My hardware :
 - Engine reference : 23HS22-2804S
 - Step driver reference : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
 - RTC module : HW-084
+
+## Generate grpc files
+
+```bash
+pip install grpcio
+
+```bash
+pip install grpcio-tools
+
+```bash
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. board.proto
+
+## Developing
+
+Start a development server:
+
+```bash
+python server.py
