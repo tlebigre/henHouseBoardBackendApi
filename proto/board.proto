@@ -1,0 +1,82 @@
+// Copyright 2015 The gRPC Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.hen.house.board";
+option java_outer_classname = "BoardProto";
+option objc_class_prefix = "BOA";
+
+package board;
+
+service Board {
+  rpc GetGpio (GpioGetRequest) returns (GpioReply) {}
+  rpc SetGpio (GpioSetRequest) returns (MessageReply) {}
+  rpc GetState (StateGetRequest) returns (StateReply) {}
+  rpc SetState (StateSetRequest) returns (MessageReply) {}
+  rpc GetDateTime (DateTimeGetRequest) returns (DateTimeReply) {}
+  rpc SetDateTime (DateTimeSetRequest) returns (MessageReply) {}
+  rpc EngineUpOrDown (EngineRequest) returns (MessageReply) {}
+  
+}
+
+message GpioGetRequest {
+  int32 gpio = 1;
+}
+
+message GpioReply {
+  bool value = 1;
+}
+
+message GpioSetRequest {
+  int32 gpio = 1;
+  bool value = 2;
+}
+
+message StateGetRequest {}
+
+message StateReply {
+  int32 value = 1;
+}
+
+message StateSetRequest {
+  int32 value = 1;
+}
+
+message DateTimeGetRequest {}
+
+message DateTimeReply {
+  	string date = 1;
+	string time = 2;
+}
+
+message DateTimeSetRequest {
+  	string date = 1;
+	string time = 2;
+	int32 dayOfWeek = 3;
+}
+
+message EngineRequest {
+  int32 gpio = 1;
+  int32 speed = 2;
+  int32 buttonGpio = 3;
+  int32 limit = 4;
+  bool isUp = 5;
+  bool isForce = 6;
+}
+
+message MessageReply {
+  string message = 1;
+}
+
