@@ -1,0 +1,43 @@
+name: Deploy HenHouse Board API
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Prepare target directory
+        run: |
+          mkdir -p /opt/henhouse/board
+
+      - name: Copy sources
+        run: |
+          rsync -av --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            ./ /opt/henhouse/board/
+
+      - name: Setup virtualenv & install deps
+        run: |
+          cd /opt/henhouse/board
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Restart service
+        run: |
+          sudo systemctl restart henhouse-board
+          sudo systemctl status henhouse-board --no-pager
