@@ -20,10 +20,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13.5"
+      - name: Use system Python
+        run: python3 -m venv venv && source venv/bin/activate
 
       - name: Prepare target directory
         run: |
