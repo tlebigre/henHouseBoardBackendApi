@@ -23,6 +23,11 @@ jobs:
       - name: Use system Python
         run: python3 -m venv venv && source venv/bin/activate
 
+      - name: Generate gRPC Python files
+        run: |
+          source venv/bin/activate
+          python -m grpc_tools.protoc -I./proto --python_out=generated --grpc_python_out=generated ./proto/*.proto
+
       - name: Prepare target directory
         run: |
           mkdir -p /opt/henhouse/board
