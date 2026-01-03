@@ -45,8 +45,7 @@ jobs:
       - name: Install gRPC Python tools
         run: |
           source /opt/henhouse/board/venv/bin/activate
-          pip install --upgrade pip
-          pip install grpcio grpcio-tools
+          python3 -m pip install grpcio grpcio-tools
 
       - name: Generate gRPC Python files
         run: |
