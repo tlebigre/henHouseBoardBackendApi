@@ -28,7 +28,7 @@ async def main():
         BoardServicer(gpio_service), server
     )
 
-    server.add_insecure_port("127.0.0.1:9000")
+    server.add_insecure_port("[::]:9000")
     print("Starting gRPC server on port 9000...")
     await server.start()
     await server.wait_for_termination()

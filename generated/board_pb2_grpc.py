@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import board_pb2 as board__pb2
+from generated import board_pb2 as board__pb2
 
 GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
