@@ -1,10 +1,11 @@
 import asyncio
 import os
+
 from grpc import aio
 
-from server.board_servicer import BoardServicer
-from infrastructure.state_repository import StateRepository
 from domain.gpio_service import GpioService
+from infrastructure.state_repository import StateRepository
+from server.board_servicer import BoardServicer
 
 if os.getenv("HARDWARE_MODE") == "raspberry":
     from infrastructure.gpio_driver import GpioDriver
