@@ -6,6 +6,7 @@ from grpc import aio
 from domain.gpio_service import GpioService
 from infrastructure.state_repository import StateRepository
 from server.board_servicer import BoardServicer
+from generated import board_pb2_grpc
 
 if os.getenv("HARDWARE_MODE") == "raspberry":
     from infrastructure.gpio_driver import GpioDriver
@@ -13,8 +14,6 @@ if os.getenv("HARDWARE_MODE") == "raspberry":
 else:
     from infrastructure.fake_gpio_driver import FakeGpioDriver as GpioDriver
     from infrastructure.fake_rtc_driver import FakeRtcDriver as RtcDriver
-
-from generated import board_pb2_grpc as board__pb2_grpc
 
 
 async def main():
@@ -25,7 +24,7 @@ async def main():
     )
 
     server = aio.server()
-    board__pb2_grpc.add_BoardServicer_to_server(
+    board_pb2_grpc.add_BoardServicer_to_server(
         BoardServicer(gpio_service), server
     )
 

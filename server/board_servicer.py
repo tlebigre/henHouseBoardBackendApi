@@ -1,11 +1,11 @@
-from generated import board_pb2 as board__pb2
-from generated import board_pb2_grpc as board__pb2_grpc
+from generated import board_pb2
+from generated import board_pb2_grpc
 
 from domain.models import Engine, DateTimeWithDayOfWeek
 import asyncio
 
 
-class BoardServicer(board__pb2_grpc.BoardServicer):
+class BoardServicer(board_pb2_grpc.BoardServicer):
 
     def __init__(self, gpio_service):
         self.service = gpio_service
@@ -15,7 +15,7 @@ class BoardServicer(board__pb2_grpc.BoardServicer):
             self.service.get_gpio,
             request.gpio
         )
-        return board__pb2.GpioReply(value=value)
+        return board_pb2.GpioReply(value=value)
 
     async def SetGpio(self, request, context):
         await asyncio.to_thread(
@@ -23,15 +23,15 @@ class BoardServicer(board__pb2_grpc.BoardServicer):
             request.gpio,
             request.value
         )
-        return board__pb2.MessageReply(message="")
+        return board_pb2.MessageReply(message="")
 
     async def GetState(self, request, context):
         value = await asyncio.to_thread(self.service.get_state)
-        return board__pb2.StateReply(value=value)
+        return board_pb2.StateReply(value=value)
 
     async def SetState(self, request, context):
         await asyncio.to_thread(self.service.set_state, request.value)
-        return board__pb2.MessageReply(message="State updated")
+        return board_pb2.MessageReply(message="State updated")
 
     async def EngineUpOrDown(self, request, context):
         await asyncio.to_thread(
@@ -45,11 +45,11 @@ class BoardServicer(board__pb2_grpc.BoardServicer):
                 is_force=request.isForce,
             )
         )
-        return board__pb2.MessageReply(message="")
+        return board_pb2.MessageReply(message="")
 
     async def GetDateTime(self, request, context):
         dt = await asyncio.to_thread(self.service.get_datetime)
-        return board__pb2.DateTimeReply(date=dt.date, time=dt.time)
+        return board_pb2.DateTimeReply(date=dt.date, time=dt.time)
 
     async def SetDateTime(self, request, context):
         await asyncio.to_thread(
@@ -60,4 +60,4 @@ class BoardServicer(board__pb2_grpc.BoardServicer):
                 day_of_week=request.dayOfWeek,
             )
         )
-        return board__pb2.MessageReply(message="")
+        return board_pb2.MessageReply(message="")
