@@ -42,17 +42,10 @@ jobs:
           pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Install gRPC Python tools
+      - name: Install Python tools
         run: |
           source /opt/henhouse/board/venv/bin/activate
           python3 -m pip install grpcio grpcio-tools pydantic
-
-      - name: Generate gRPC Python files
-        run: |
-          source /opt/henhouse/board/venv/bin/activate
-          mkdir -p generated
-          touch generated/__init__.py
-          python -m grpc_tools.protoc -I./proto --python_out=generated --grpc_python_out=generated ./proto/*.proto
 
       - name: Restart service
         run: |
