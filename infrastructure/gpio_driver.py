@@ -1,8 +1,7 @@
-from gpiozero import DigitalInputDevice, DigitalOutputDevice
-from gpiozero.pins.native import NativeFactory
-from gpiozero import Device
+from gpiozero import DigitalInputDevice, DigitalOutputDevice, Device
+from gpiozero.pins.rpigpio import RPiGPIOFactory
 
-Device.pin_factory = NativeFactory()
+Device.pin_factory = RPiGPIOFactory()
 
 
 class GpioDriver:
