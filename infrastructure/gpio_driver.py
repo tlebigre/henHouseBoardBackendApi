@@ -1,28 +1,34 @@
-from gpiozero import DigitalInputDevice, DigitalOutputDevice, Device
-from gpiozero.pins.rpigpio import RPiGPIOFactory
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    GPIO = None
 
-Device.pin_factory = RPiGPIOFactory()
+
+def cleanup():
+    GPIO.cleanup()
 
 
 class GpioDriver:
     def __init__(self):
-        self.inputs = {
-            17: DigitalInputDevice(17, pull_up=False),
-            27: DigitalInputDevice(27, pull_up=False),
-        }
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
 
-        self.outputs = {
-            13: DigitalOutputDevice(13, initial_value=False),
-            19: DigitalOutputDevice(19, initial_value=False),
-            26: DigitalOutputDevice(26, initial_value=False),
-        }
+        self.input_pins = [17, 27]
+        self.output_pins = [13, 19, 26]
+
+        for pin in self.input_pins:
+            GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+        for pin in self.output_pins:
+            GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
 
     def read(self, gpio: int) -> bool:
-        if gpio not in self.inputs:
+        if gpio not in self.input_pins:
             raise ValueError(f"GPIO {gpio} not configured as input")
-        return self.inputs[gpio].value
+        return GPIO.input(gpio) == GPIO.HIGH
 
     def write(self, gpio: int, value: bool):
-        if gpio not in self.outputs:
+        if gpio not in self.output_pins:
             raise ValueError(f"GPIO {gpio} not configured as output")
-        self.outputs[gpio].value = value
+        GPIO.output(gpio, GPIO.HIGH if value else GPIO.LOW)
+
