@@ -10,7 +10,7 @@ def cleanup():
 
 class GpioDriver:
     def __init__(self):
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BOARD)
         GPIO.setwarnings(False)
 
         self.input_pins = [17, 27]
