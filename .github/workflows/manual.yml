@@ -37,10 +37,11 @@ jobs:
       - name: Setup virtualenv & install deps
         run: |
           cd /opt/henhouse/board
-          python -m venv venv
-          source venv/bin/activate
-          pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python3.13 -m venv venv
+          ./venv/bin/python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then 
+            ./venv/bin/python -m pip install -r requirements.txt
+          fi
 
       - name: Restart service
         run: |
