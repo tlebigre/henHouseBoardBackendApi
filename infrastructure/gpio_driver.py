@@ -1,7 +1,8 @@
 try:
     import RPi.GPIO as GPIO
+    print("RPi.GPIO is ok")
 except ImportError:
-    GPIO = None
+    print("Error : RPi.GPIO")
 
 
 def cleanup():
@@ -10,7 +11,7 @@ def cleanup():
 
 class GpioDriver:
     def __init__(self):
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
 
         self.input_pins = [17, 27]
