@@ -1,8 +1,7 @@
-from generated import board_pb2
-from generated import board_pb2_grpc
+import asyncio
 
 from domain.models import Engine, DateTimeWithDayOfWeek
-import asyncio
+from generated import board_pb2_grpc, board_pb2
 
 
 class BoardServicer(board_pb2_grpc.BoardServicer):
@@ -13,14 +12,14 @@ class BoardServicer(board_pb2_grpc.BoardServicer):
     async def GetGpio(self, request, context):
         value = await asyncio.to_thread(
             self.service.get_gpio,
-            request._gpio
+            request.gpio
         )
         return board_pb2.GpioReply(value=value)
 
     async def SetGpio(self, request, context):
         await asyncio.to_thread(
             self.service.set_gpio,
-            request._gpio,
+            request.gpio,
             request.value
         )
         return board_pb2.MessageReply(message="")
@@ -37,7 +36,7 @@ class BoardServicer(board_pb2_grpc.BoardServicer):
         await asyncio.to_thread(
             self.service.engine_up_or_down,
             Engine(
-                gpio=request._gpio,
+                gpio=request.gpio,
                 speed=request.speed,
                 button_gpio=request.buttonGpio,
                 limit=request.limit,
