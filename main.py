@@ -10,17 +10,14 @@ from generated import board_pb2_grpc
 
 if os.getenv("HARDWARE_MODE") == "raspberry":
     from infrastructure.gpio_driver import GpioDriver
-    from infrastructure.rtc_driver import RtcDriver
 else:
     from infrastructure.fake_gpio_driver import FakeGpioDriver as GpioDriver
-    from infrastructure.fake_rtc_driver import FakeRtcDriver as RtcDriver
 
 
 async def main():
     gpio_service = GpioService(
         gpio_driver=GpioDriver(),
         state_repo=StateRepository(),
-        rtc_driver=RtcDriver(),
     )
 
     server = aio.server()

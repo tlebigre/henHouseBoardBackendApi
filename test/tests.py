@@ -1,16 +1,14 @@
 from domain.gpio_service import GpioService
 from domain.models import Engine
 from infrastructure.fake_gpio_driver import FakeGpioDriver
-from infrastructure.fake_rtc_driver import FakeRtcDriver
 from infrastructure.state_repository import StateRepository
 
 
 def test_engine_up():
     gpio = FakeGpioDriver()
-    rtc = FakeRtcDriver()
     state = StateRepository(path=":memory:")
 
-    service = GpioService(gpio, state, rtc)
+    service = GpioService(gpio, state)
 
     service.engine_up_or_down(
         Engine(

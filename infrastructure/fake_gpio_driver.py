@@ -1,9 +1,9 @@
 class FakeGpioDriver:
     def __init__(self):
-        self.state = {}
+        self._state = {}
 
     def read(self, gpio: int) -> bool:
-        return self.state.get(gpio, False)
+        return self._state.get(gpio, False)
 
     def write(self, gpio: int, value: bool):
-        self.state[gpio] = value
+        self._state[gpio] = value

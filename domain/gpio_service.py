@@ -1,6 +1,7 @@
 import time
+from datetime import datetime
 from domain.models import Engine, DateTime, DateTimeWithDayOfWeek
-from domain.ports import GpioPort, RtcPort
+from domain.ports import GpioPort
 from infrastructure.state_repository import StateRepository
 
 
@@ -8,42 +9,48 @@ class GpioService:
     def __init__(
             self,
             gpio_driver: GpioPort,
-            state_repo: StateRepository,
-            rtc_driver: RtcPort,
+            state_repo: StateRepository
     ):
-        self.gpio = gpio_driver
-        self.state = state_repo
-        self.rtc = rtc_driver
+        self._gpio = gpio_driver
+        self._state = state_repo
+        self._now = datetime.now()
 
     def get_gpio(self, gpio: int) -> bool:
-        return self.gpio.read(gpio)
+        return self._gpio.read(gpio)
 
     def set_gpio(self, gpio: int, value: bool):
-        self.gpio.write(gpio, value)
+        self._gpio.write(gpio, value)
 
     def get_datetime(self) -> DateTime:
-        return self.rtc.get_datetime()
+        return DateTime(
+            date=self._now.strftime("%d/%m/%Y"),
+            time=self._now.strftime("%H:%M"),
+        )
 
     def set_datetime(self, dt: DateTimeWithDayOfWeek):
-        self.rtc.set_datetime(dt)
+        d, m, y = map(int, dt.date.split("/"))
+        h, mi = map(int, dt.time.split(":"))
+        self._now = self._now.replace(
+            year=y, month=m, day=d, hour=h, minute=mi
+        )
 
     def get_state(self) -> int:
-        return self.state.get()
+        return self._state.get()
 
     def set_state(self, state: int):
-        self.state.set(state)
+        self._state.set(state)
 
     def engine_up_or_down(self, engine: Engine):
-        state = self.state.get()
+        state = self._state.get()
 
         while (
-                (engine.is_force or self.gpio.read(engine.button_gpio))
+                (engine.is_force or self._gpio.read(engine.button_gpio))
                 and (state < engine.limit if engine.is_up else state > engine.limit)
         ):
-            self.gpio.write(engine.gpio, True)
+            self._gpio.write(engine.gpio, True)
             time.sleep(0.001 * (6 - engine.speed))
-            self.gpio.write(engine.gpio, False)
+            self._gpio.write(engine.gpio, False)
             time.sleep(0.001 * (5 - engine.speed))
 
             state += 1 if engine.is_up else -1
-            self.state.set(state)
+            self._state.set(state)
