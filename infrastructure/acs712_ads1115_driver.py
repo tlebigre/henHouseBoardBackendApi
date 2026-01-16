@@ -22,8 +22,6 @@ class ACS712ADS1115Driver:
         self._threshold = threshold
         self._consecutive = consecutive
 
-        self._history = []
-
         i2c = busio.I2C(board.SCL, board.SDA)
         self._ads = ADS.ADS1115(i2c)
         self._channel = AnalogIn(self._ads, 0)
@@ -35,9 +33,4 @@ class ACS712ADS1115Driver:
 
     def is_motor_running(self) -> bool:
         current = abs(self.read_current())
-        self._history.append(current > self._threshold)
-
-        if len(self._history) > self._consecutive:
-            self._history.pop(0)
-
-        return self._history.count(True) == self._consecutive
+        return current > self._threshold
