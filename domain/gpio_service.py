@@ -1,7 +1,9 @@
 import time
 from datetime import datetime
+
+from domain.current_sensor_port import CurrentSensorPort
 from domain.models import Engine, DateTime, DateTimeWithDayOfWeek
-from domain.ports import GpioPort
+from domain.gpio_ports import GpioPort
 from infrastructure.state_repository import StateRepository
 
 
@@ -9,10 +11,12 @@ class GpioService:
     def __init__(
             self,
             gpio_driver: GpioPort,
-            state_repo: StateRepository
+            state_repo: StateRepository,
+            current_sensor: CurrentSensorPort
     ):
         self._gpio = gpio_driver
         self._state = state_repo
+        self._current = current_sensor
         self._now = datetime.now()
 
     def get_gpio(self, gpio: int) -> bool:
@@ -52,5 +56,8 @@ class GpioService:
             self._gpio.write(engine.gpio, False)
             time.sleep(0.001 * (5 - engine.speed))
 
-            state += 1 if engine.is_up else -1
-            self._state.set(state)
+            if self._current:
+                if not self._current.is_motor_running():
+                    continue
+        state += 1 if engine.is_up else -1
+        self._state.set(state)

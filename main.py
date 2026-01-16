@@ -10,14 +10,17 @@ from generated import board_pb2_grpc
 
 if os.getenv("HARDWARE_MODE") == "raspberry":
     from infrastructure.gpio_driver import GpioDriver
+    from infrastructure.acs712_ads1115_driver import ACS712ADS1115Driver
 else:
     from infrastructure.fake_gpio_driver import FakeGpioDriver as GpioDriver
+    from infrastructure.fake_acs712_ads1115_driver import FakeACS712ADS1115Driver as ACS712ADS1115Driver
 
 
 async def main():
     gpio_service = GpioService(
         gpio_driver=GpioDriver(),
         state_repo=StateRepository(),
+        current_sensor=ACS712ADS1115Driver()
     )
 
     server = aio.server()

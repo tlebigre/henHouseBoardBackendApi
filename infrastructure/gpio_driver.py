@@ -1,8 +1,8 @@
 try:
     import RPi.GPIO as GPIO
-    print("RPi.GPIO is ok")
+    print("GpioDriver import is ok")
 except ImportError:
-    print("Error : RPi.GPIO")
+    print("GpioDriver import is nok")
 
 
 def cleanup():
