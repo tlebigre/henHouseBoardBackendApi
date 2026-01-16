@@ -59,5 +59,6 @@ class GpioService:
             if self._current:
                 if not self._current.is_motor_running():
                     continue
-        state += 1 if engine.is_up else -1
-        self._state.set(state)
+
+            state += 1 if engine.is_up else -1
+            self._state.set(state)
