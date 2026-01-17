@@ -4,6 +4,7 @@ import os
 from grpc import aio
 
 from domain.gpio_service import GpioService
+from domain.motor_current_monitor_async import MotorCurrentMonitorAsync
 from infrastructure.state_repository import StateRepository
 from server.board_servicer import BoardServicer
 from generated import board_pb2_grpc
@@ -17,10 +18,14 @@ else:
 
 
 async def main():
+
+    monitor = MotorCurrentMonitorAsync(ACS712ADS1115Driver())
+    await monitor.start()
+
     gpio_service = GpioService(
         gpio_driver=GpioDriver(),
         state_repo=StateRepository(),
-        current_sensor=ACS712ADS1115Driver()
+        current_monitor=monitor
     )
 
     server = aio.server()
@@ -32,6 +37,7 @@ async def main():
     print("Starting gRPC server on port 9000...")
     await server.start()
     await server.wait_for_termination()
+    await monitor.stop()
 
 
 if __name__ == "__main__":

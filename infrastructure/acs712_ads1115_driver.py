@@ -26,11 +26,15 @@ class ACS712ADS1115Driver:
         self._ads = ADS.ADS1115(i2c)
         self._channel = AnalogIn(self._ads, 0)
 
-    def read_current(self) -> float:
+    def is_motor_running(self) -> bool:
+        current = abs(self._read_current())
+        return current > self._threshold
+
+    def _read_current(self) -> float:
         voltage = self._channel.voltage
         current = (voltage - self._zero_voltage) / self._sensitivity
+        print(
+            f"Vout={voltage:.3f} V | "
+            f"I={current:.2f} A"
+        )
         return current
-
-    def is_motor_running(self) -> bool:
-        current = abs(self.read_current())
-        return current > self._threshold
