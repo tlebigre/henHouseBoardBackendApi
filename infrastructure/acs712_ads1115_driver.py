@@ -35,7 +35,7 @@ class ACS712ADS1115Driver:
         # I2C / ADS1115
         i2c = busio.I2C(board.SCL, board.SDA)
         self._ads = ADS.ADS1115(i2c)
-        self._channel = AnalogIn(self._ads, ADS.P0)
+        self._channel = AnalogIn(self._ads, 0)
 
         # Calibration
         self._zero_voltage = self._calibrate_zero(calibration_samples)
