@@ -25,7 +25,7 @@ class ACS712ADS1115Driver:
         print(f"[ACS712] Zero calibrated at {zero:.3f} V")
         return zero
 
-def is_motor_running(self) -> bool:
-    delta = abs(self._channel.voltage - self._zero)
-    print(f"ΔV={delta*1000:.1f} mV")
-    return delta > self._threshold
+    def is_motor_running(self) -> bool:
+        delta = abs(self._channel.voltage - self._zero)
+        print(f"ΔV={delta*1000:.1f} mV")
+        return delta > self._threshold
