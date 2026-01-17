@@ -49,25 +49,24 @@ class GpioService:
 
     def engine_up_or_down(self, engine: Engine):
         state = self._state.get()
+        direction = 1 if engine.is_up else -1
+        target = engine.limit
 
-        while (
-                (engine.is_force or self._gpio.read(engine.button_gpio))
-                and (state < engine.limit if engine.is_up else state > engine.limit)
-        ):
-            self._gpio.write(engine.gpio, True)
-            time.sleep(0.001 * (6 - engine.speed))
-            self._gpio.write(engine.gpio, False)
-            time.sleep(0.001 * (5 - engine.speed))
+        try:
+            while engine.is_force or self._gpio.read(engine.button_gpio):
 
-            no_current_cycles = 0
+                if (direction == 1 and state >= target) or (direction == -1 and state <= target):
+                    break
 
-            if self._current_monitor.is_motor_running():
-                state += 1 if engine.is_up else -1
-                self._state.set(state)
-                no_current_cycles = 0
-            else:
-                no_current_cycles += 1
-
-            if no_current_cycles > GpioService.MAX_NO_CURRENT:
+                self._gpio.write(engine.gpio, True)
+                time.sleep(0.001 * (6 - engine.speed))
                 self._gpio.write(engine.gpio, False)
-                return
+                time.sleep(0.001 * (5 - engine.speed))
+
+                if self._current_monitor.is_motor_running():
+                    state += direction
+                    self._state.set(state)
+
+        finally:
+            self._gpio.write(engine.gpio, False)
+
