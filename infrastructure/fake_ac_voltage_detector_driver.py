@@ -1,4 +1,4 @@
-class FakeACS712ADS1115Driver:
+class FakeACVoltageDetectorDriver:
     def __init__(self):
         self._running = True
 

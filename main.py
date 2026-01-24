@@ -11,15 +11,15 @@ from generated import board_pb2_grpc
 
 if os.getenv("HARDWARE_MODE") == "raspberry":
     from infrastructure.gpio_driver import GpioDriver
-    from infrastructure.acs712_ads1115_driver import ACS712ADS1115Driver
+    from infrastructure.ac_voltage_detector_driver import ACVoltageDetectorDriver as ACVoltageDetectorDriver
 else:
     from infrastructure.fake_gpio_driver import FakeGpioDriver as GpioDriver
-    from infrastructure.fake_acs712_ads1115_driver import FakeACS712ADS1115Driver as ACS712ADS1115Driver
+    from infrastructure.fake_ac_voltage_detector_driver import FakeACVoltageDetectorDriver as ACVoltageDetectorDriver
 
 
 async def main():
 
-    monitor = MotorCurrentMonitorAsync(ACS712ADS1115Driver())
+    monitor = MotorCurrentMonitorAsync(ACVoltageDetectorDriver())
     await monitor.start()
 
     gpio_service = GpioService(
