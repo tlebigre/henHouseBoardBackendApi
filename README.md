@@ -11,7 +11,6 @@ Init my GPIO with :
 My hardware :
 - Engine reference : 23HS22-2804S
 - Step driver reference : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
-- RTC module : HW-084
 
 ## Generate grpc files
 
@@ -29,8 +28,20 @@ python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. board.proto
 
 ## Developing
 
-Start a development server:
+## /etc/systemd/system/henhouse-board.service
+[Unit]
+Description=HenHouse Board Backend
+After=network.target
 
-```bash
-python server.py
-```
+[Service]
+Type=simple
+User=lebigre
+WorkingDirectory=/opt/henhouse/board
+Environment=PYTHONPATH=/opt/henhouse/board
+Environment=HARDWARE_MODE=raspberry
+ExecStart=/opt/henhouse/board/venv/bin/python /opt/henhouse/board/main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
