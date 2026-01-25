@@ -29,6 +29,7 @@ python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. board.proto
 ## Developing
 
 ## /etc/systemd/system/henhouse-board.service
+```bash
 [Unit]
 Description=HenHouse Board Backend
 After=network.target
@@ -45,3 +46,4 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
+```
