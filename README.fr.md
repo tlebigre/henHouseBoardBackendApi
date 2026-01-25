@@ -7,30 +7,40 @@ Initialisation de mes GPIO :
 - 13 --> Le moteur fonctionne
 - 19 --> Direction du moteur
 - 26 --> Arret du moteur
+- 18 --> Détection de l'alimentation secteur
 
 Mon matériel :
 - Référence du moteur : 23HS22-2804S
 - Référence du driver : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
 - Module RTC : HW-084
-
-## Générer les fichiers grpc
-
-```bash
-pip install grpcio
-```
-
-```bash
-pip install grpcio-tools
-```
-
-```bash
-python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. board.proto
-```
+- Raspberry PI 3
+- Mini UPS Battery Backup : Model FX-5V, Capacity 10000mAh
+- DollaTek AC 220V microcontrôleur niveau TTL module d'isolation optocoupleur
 
 ## Développement
 
 Démarrer le serveur de développement :
 
 ```bash
-python server.py
+python main.py
+```
+
+## /etc/systemd/system/henhouse-board.service
+```bash
+[Unit]
+Description=HenHouse Board Backend
+After=network.target
+
+[Service]
+Type=simple
+User=lebigre
+WorkingDirectory=/opt/henhouse/board
+Environment=PYTHONPATH=/opt/henhouse/board
+Environment=HARDWARE_MODE=raspberry
+ExecStart=/opt/henhouse/board/venv/bin/python /opt/henhouse/board/main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
 ```

@@ -7,26 +7,22 @@ Init my GPIO with :
 - 13 --> Engine run
 - 19 --> Engine direction
 - 26 --> Engine stop
+- 18 --> AC power detection
 
 My hardware :
 - Engine reference : 23HS22-2804S
 - Step driver reference : DM556 (5.6A (2.8*2), Half Current, 20000 pulse/rev)
-
-## Generate grpc files
-
-```bash
-pip install grpcio
-```
-
-```bash
-pip install grpcio-tools
-```
-
-```bash
-python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. board.proto
-```
+- Raspberry PI 3
+- Mini UPS Battery Backup : Model FX-5V, Capacity 10000mAh
+- DollaTek AC 220V Optocoupler Isolation Module – 1-Channel TTL Level Tester For PLC & Microcontrollers
 
 ## Developing
+
+Start a development server:
+
+```bash
+python main.py
+```
 
 ## /etc/systemd/system/henhouse-board.service
 ```bash
