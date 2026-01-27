@@ -1,3 +1,4 @@
+import subprocess
 import time
 from datetime import datetime
 from typing import Final
@@ -20,7 +21,6 @@ class GpioService:
         self._gpio = gpio_driver
         self._state = state_repo
         self._current_monitor = current_monitor
-        self._now = datetime.now()
 
     def get_gpio(self, gpio: int) -> bool:
         return self._gpio.read(gpio)
@@ -29,17 +29,19 @@ class GpioService:
         self._gpio.write(gpio, value)
 
     def get_datetime(self) -> DateTime:
+        now = datetime.now()
         return DateTime(
-            date=self._now.strftime("%d/%m/%Y"),
-            time=self._now.strftime("%H:%M"),
+            date=now.strftime("%d/%m/%Y"),
+            time=now.strftime("%H:%M"),
         )
 
     def set_datetime(self, dt: DateTimeWithDayOfWeek):
         d, m, y = map(int, dt.date.split("/"))
         h, mi = map(int, dt.time.split(":"))
-        self._now = self._now.replace(
-            year=y, month=m, day=d, hour=h, minute=mi
-        )
+
+        iso = f"{y:04d}-{m:02d}-{d:02d} {h:02d}:{mi:02d}:00"
+
+        subprocess.run(["sudo", "timedatectl", "set-time", iso], check=True)
 
     def get_state(self) -> int:
         return self._state.get()
